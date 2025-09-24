@@ -1,4 +1,4 @@
-package com.happyfeet.controller;
+package scr.com.happyfeet;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
