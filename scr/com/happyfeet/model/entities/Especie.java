@@ -1,5 +1,7 @@
 package com.happyfeet.model.entities;
 
+import java.time.LocalDate;
+
 public class Especie {
     private int id;
     private String nombre;
@@ -24,15 +26,12 @@ public class Especie {
     public String getNombre() {
         return nombre;
     }
-    public void setNombre(String nombre) {
+    public void setId(String nombre) {
         this.nombre = nombre;
     }
 
     @Override
     public String toString() {
-        return "Especie{" + 
-        "id=" + id +
-        ", nombre='" + nombre + '\'' +
-        '}';
+        return "Especie{id=" + id + ", nombre='" + nombre + "'}";
     }
 }
