@@ -106,3 +106,51 @@ CREATE TABLE items_factura (
     FOREIGN KEY (factura_id) REFERENCES facturas(id),
     FOREIGN KEY (producto_id) REFERENCES inventario(id)
 );
+
+CREATE TABLE veterinarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_completo VARCHAR(255) NOT NULL,
+    documento_identidad VARCHAR(20) UNIQUE NOT NULL,
+    especialidad VARCHAR(100),
+    telefono VARCHAR(20),
+    email VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_usuario VARCHAR(50) UNIQUE NOT NULL,
+    contrasena VARCHAR(255) NOT NULL,
+    rol ENUM('ADMIN','VETERINARIO','AUXILIAR') NOT NULL
+);
+
+CREATE TABLE proveedores (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    telefono VARCHAR(20),
+    email VARCHAR(100),
+    direccion VARCHAR(255)
+);
+
+CREATE TABLE actividades_especiales (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    tipo ENUM('ADOPCION','VACUNACION','CLUB_FRECUENTES') NOT NULL,
+    descripcion TEXT,
+    fecha DATE NOT NULL
+);
+
+CREATE TABLE adopciones (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    mascota_id INT NOT NULL,
+    nuevo_dueno_id INT NOT NULL,
+    fecha DATE NOT NULL,
+    contrato TEXT,
+    FOREIGN KEY (mascota_id) REFERENCES mascotas(id),
+    FOREIGN KEY (nuevo_dueno_id) REFERENCES duenos(id)
+);
+
+CREATE TABLE puntos_clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dueno_id INT NOT NULL,
+    puntos INT DEFAULT 0,
+    FOREIGN KEY (dueno_id) REFERENCES duenos(id)
+);
