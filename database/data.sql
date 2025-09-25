@@ -57,3 +57,59 @@ INSERT INTO items_factura (factura_id, producto_id, servicio_descripcion, cantid
 (1, 1, NULL, 1, 45000.00, 45000.00), 
 (1, NULL, 'Consulta general', 1, 2500.00, 2500.00),
 (2, 2, NULL, 1, 2500.00, 2500.00);
+
+INSERT INTO veterinarios (nombre_completo, documento_identidad, especialidad, telefono, email)
+VALUES
+('Laura Martínez Gómez', '1001234567', 'Medicina general', '3104567890', 'laura.martinez@happyfeet.com'),
+('Carlos Andrés Rojas', '1009876543', 'Cirugía', '3157896541', 'carlos.rojas@happyfeet.com'),
+('Mariana López Torres', '1012345678', 'Dermatología', '3126549870', 'mariana.lopez@happyfeet.com'),
+('Andrés Felipe Gutiérrez', '1018765432', 'Cardiología', '3201234567', 'andres.gutierrez@happyfeet.com'),
+('Valentina Ramírez Castro', '1023456789', 'Oftalmología', '3187654321', 'valentina.ramirez@happyfeet.com');
+
+-- Insertar usuarios en la tabla usuarios
+INSERT INTO usuarios (nombre_usuario, contrasena, rol) VALUES
+('admin_happyfeet', 'admin123', 'ADMIN'),
+('vet_carlos', 'vetcarlos123', 'VETERINARIO'),
+('vet_andrea', 'vetandrea123', 'VETERINARIO'),
+('vet_julian', 'vetjulian123', 'VETERINARIO'),
+('aux_maria', 'auxmaria123', 'AUXILIAR');
+
+-- Inserciones para la tabla proveedores
+INSERT INTO proveedores (nombre, telefono, email, direccion) VALUES
+('Distribuidora VetLife', '3104567890', 'contacto@vetlife.com', 'Cra 10 # 25-30, Bucaramanga'),
+('Agroinsumos del Oriente', '3176543210', 'ventas@agroinsumos.co', 'Km 5 vía Girón, Santander'),
+('Laboratorios AnimalCare', '3019876543', 'info@animalcare.com', 'Av. Libertad #45-20, Bogotá'),
+('Farmapet S.A.S', '3152345678', 'pedidos@farmapet.com', 'Calle 34 #12-18, Medellín'),
+('Nutrición y Salud Animal', '3027654321', 'soporte@nutrisalud.com', 'Carrera 15 # 45-67, Cali'),
+('Distribuciones Mascotas Plus', '3194561230', 'mascotasplus@gmail.com', 'Calle 5 # 20-55, Barranquilla'),
+('BioVet Solutions', '3112349876', 'contacto@biovet.com', 'Carrera 50 # 80-15, Bogotá'),
+('Zootecnia del Valle', '3148765432', 'ventas@zootecnia.co', 'Av. Roosevelt #90-45, Cali'),
+('PetHouse Proveedores', '3001234567', 'proveedores@pethouse.com', 'Calle 9 # 14-25, Bucaramanga'),
+('VetDistribuciones Global', '3126547890', 'global@vetdistribuciones.com', 'Carrera 100 # 50-40, Bogotá');
+
+-- Actividades de adopción
+INSERT INTO actividades_especiales (tipo, descripcion, fecha) VALUES
+('ADOPCION', 'Jornada de adopción de perros rescatados en alianza con la Fundación Patitas Felices.', '2025-10-05'),
+('ADOPCION', 'Feria de adopción de gatos adultos y cachorros.', '2025-11-12');
+
+-- Actividades de vacunación
+INSERT INTO actividades_especiales (tipo, descripcion, fecha) VALUES
+('VACUNACION', 'Campaña de vacunación antirrábica gratuita para perros y gatos.', '2025-09-30'),
+('VACUNACION', 'Vacunación contra moquillo y parvovirus con descuentos especiales.', '2025-10-15');
+
+-- Actividades del club de frecuentes
+INSERT INTO actividades_especiales (tipo, descripcion, fecha) VALUES
+('CLUB_FRECUENTES', 'Charla sobre cuidados de mascotas exóticas para miembros del club.', '2025-10-20'),
+('CLUB_FRECUENTES', 'Entrega de kit de bienvenida y descuentos para nuevos afiliados.', '2025-11-01');
+
+INSERT INTO adopciones (mascota_id, nuevo_dueno_id, fecha, contrato)
+VALUES
+(1, 1, '2025-01-15', 'Contrato firmado: Se garantiza buen trato y cuidados médicos anuales.'),
+(2, 2, '2025-02-02', 'Adopción condicionada: seguimiento trimestral durante el primer año.'),
+(1, 2, '2025-03-10', 'Contrato simple: la mascota será esterilizada y vacunada en la clínica.'),
+(2, 2, '2025-04-05', 'Se firma acuerdo de responsabilidad civil en caso de abandono.'),
+(2, 1, '2025-06-20', 'NULL'); -- Caso donde no se anexó contrato formal
+
+INSERT INTO puntos_clientes (dueno_id, puntos) VALUES
+(1, 120),   -- Cliente 1 con 120 puntos
+(2, 450);   -- Cliente 2 más constante
