@@ -1,4 +1,4 @@
-package com.happyfeet.model.enums;
+package scr.com.happyfeet.model.enums;
 
 public class enums {
     

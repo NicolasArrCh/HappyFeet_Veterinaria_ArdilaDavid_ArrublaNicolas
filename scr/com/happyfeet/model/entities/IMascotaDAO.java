@@ -1,5 +1,4 @@
 package com.happyfeet.model.entities;
-
 import java.util.List;
 
 public interface IMascotaDAO {

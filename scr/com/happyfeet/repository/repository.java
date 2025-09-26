@@ -1,4 +1,4 @@
-package com.happyfeet.repository;
+package scr.com.happyfeet.repository;
 
 public class repository {
     

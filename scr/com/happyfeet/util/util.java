@@ -1,4 +1,4 @@
-package com.happyfeet.util;
+package scr.com.happyfeet.util;
 
 public class util {
     

@@ -1,7 +1,5 @@
 package com.happyfeet.model.entities;
 
-import java.time.LocalDate;
-
 public class ProductoTipo {
     private int id;
     private String nombre;
