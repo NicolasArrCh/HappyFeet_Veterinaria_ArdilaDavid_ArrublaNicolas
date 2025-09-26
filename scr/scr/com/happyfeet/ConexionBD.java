@@ -8,7 +8,7 @@ public class ConexionBD {
     private static volatile ConexionBD instance;
     private Connection connection;
 
-    private static String url ="jdbc:mysql://localhost:3306/database";
+    private static String url ="jdbc:mysql://localhost:3306/happyfeet";
     private static String usuario="campus2023";
     private static String contrasena="campus2023";
 
@@ -18,24 +18,18 @@ public class ConexionBD {
 
             this.connection = DriverManager.getConnection(url, usuario, contrasena);
             System.out.println("Base de datos conectada");
-        } catch (ClassNotFoundException e) {
-            System.err.println("Error.. No se pudo cargar el driver de MySQL");
-        } catch (SQLException e) {
-            System.err.println("Error.. No se pudo establecer la conexión");
+        } catch (ClassNotFoundException | SQLException e) {
+            System.err.println("Error en la conexión: " + e.getMessage());
         }
     }
 
     public static ConexionBD getInstance() {
         if (instance == null) {
-            synchronized (ConexionBD.class) {
-                if (instance == null) {
-                    instance = new ConexionBD();
-                }
+            if (instance == null) {
+                instance = new ConexionBD();
             }
+            return instancia;
         }
-
-        return instance;
-    }
 
     public Connection getConnection() {
         try {
@@ -50,28 +44,7 @@ public class ConexionBD {
         return null;
     }
 
-    private void reconnect() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
-            connection = DriverManager.getConnection(url, usuario, contrasena);
-            System.out.println("Conexión reestablecida");
-        } catch (SQLException e) {
-            System.err.println("Error al reconectar");
-            e.printStackTrace();
+        public Connection getConexion() {
+            return conexion;
         }
     }
-
-    public void closeConnection() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-                System.out.println("Conexión cerrada correctamente");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al cerrar la conexión");
-            e.printStackTrace();
-        }
-    }
-}

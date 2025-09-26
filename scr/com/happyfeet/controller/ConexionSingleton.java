@@ -9,7 +9,7 @@ public class ConexionSingleton {
     private static String host = "jdbc:mysql://localhost:3306/";
     private static String user = "campus2023"; //cambiar user en caso necesario
     private static String pass = "campus2023"; //cambiar pass en caso necesario
-    private static String db = "database";
+    private static String db = "happyfeet";
 
     private static String StrConn = host + db;
     private static Connection connection;
