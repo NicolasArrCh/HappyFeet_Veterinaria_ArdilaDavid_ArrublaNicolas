@@ -1,4 +1,6 @@
-package com.happyfeet.model.entities;
+package com.happyfeet.repository.inter;
+
+import com.happyfeet.model.entities.Adopcion;
 
 import java.util.List;
 public interface IAdopcionDAO {

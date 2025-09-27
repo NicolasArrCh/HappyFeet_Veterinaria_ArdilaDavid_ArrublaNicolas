@@ -1,12 +1,12 @@
 package com.happyfeet.model.entities;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class ActividadEspecial {
     private int id;
     private TipoActividad tipo;
     private String descripcion;
-    private LocalDate fecha;
+    private Date fecha;
 
     public enum TipoActividad {
         ADOPCION,
@@ -16,7 +16,7 @@ public class ActividadEspecial {
 
     public ActividadEspecial() {}
 
-    public ActividadEspecial(int id, TipoActividad tipo, String descripcion, LocalDate fecha) {
+    public ActividadEspecial(int id, TipoActividad tipo, String descripcion, Date fecha) {
         this.id = id;
         this.tipo = tipo;
         this.descripcion = descripcion;
@@ -32,8 +32,8 @@ public class ActividadEspecial {
     public String getDescripcion() { return descripcion; }
     public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
-    public LocalDate getFecha() { return fecha; }
-    public void setFecha(LocalDate fecha) { this.fecha = fecha; }
+    public Date getFecha() { return fecha; }
+    public void setFecha(Date fecha) { this.fecha = fecha; }
 
     @Override
     public String toString() {

@@ -1,4 +1,6 @@
-package com.happyfeet.model.entities;
+package com.happyfeet.repository.inter;
+
+import com.happyfeet.model.entities.Raza;
 
 import java.util.List;
 

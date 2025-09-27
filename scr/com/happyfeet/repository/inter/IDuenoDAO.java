@@ -1,4 +1,6 @@
-package com.happyfeet.model.entities;
+package com.happyfeet.repository.inter;
+
+import com.happyfeet.model.entities.Dueno;
 
 import java.util.List;
 
