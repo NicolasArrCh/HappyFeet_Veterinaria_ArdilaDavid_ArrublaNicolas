@@ -3,7 +3,7 @@ package com.happyfeet.repository.DAO;
 import com.happyfeet.model.entities.Inventario;
 import com.happyfeet.model.entities.ProductoTipo;
 import com.happyfeet.repository.inter.IInventarioDAO;
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 
 import java.sql.*;
 import java.time.LocalDate;

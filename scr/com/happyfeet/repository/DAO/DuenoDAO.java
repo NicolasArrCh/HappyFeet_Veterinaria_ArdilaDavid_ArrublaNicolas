@@ -1,8 +1,7 @@
 package com.happyfeet.repository.DAO;
 
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 import com.happyfeet.model.entities.Dueno;
-import com.happyfeet.model.entities.Dueno.*;
 import com.happyfeet.repository.inter.IDuenoDAO;
 
 import java.sql.*;

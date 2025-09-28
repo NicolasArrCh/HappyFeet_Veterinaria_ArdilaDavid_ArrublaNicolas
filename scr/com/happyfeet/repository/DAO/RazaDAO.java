@@ -1,9 +1,8 @@
 package com.happyfeet.repository.DAO;
 
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 import com.happyfeet.model.entities.Especie;
 import com.happyfeet.model.entities.Raza;
-import com.happyfeet.model.entities.Raza.*;
 import com.happyfeet.repository.inter.IRazaDAO;
 
 import java.sql.*;

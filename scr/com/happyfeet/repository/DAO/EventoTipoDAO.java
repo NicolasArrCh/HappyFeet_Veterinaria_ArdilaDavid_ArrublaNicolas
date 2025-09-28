@@ -2,7 +2,7 @@ package com.happyfeet.repository.DAO;
 
 import com.happyfeet.model.entities.EventoTipo;
 import com.happyfeet.repository.inter.IEventoTipoDAO;
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 
 
 import java.sql.*;

@@ -1,11 +1,9 @@
 package com.happyfeet.repository.DAO;
 
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 import com.happyfeet.model.entities.ProductoTipo;
-import com.happyfeet.model.entities.ProductoTipo.*;
 import com.happyfeet.repository.inter.IProductoTipoDAO;
 
-import java.security.ProtectionDomain;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

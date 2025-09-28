@@ -2,7 +2,7 @@ package com.happyfeet.repository.DAO;
 
 import com.happyfeet.model.entities.Proveedor;
 import com.happyfeet.repository.inter.IProveedorDAO;
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ import com.happyfeet.model.entities.HistorialMedico;
 import com.happyfeet.model.entities.Mascota;
 import com.happyfeet.model.entities.EventoTipo;
 import com.happyfeet.repository.inter.IHistorialMedicoDAO;
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 
 import java.sql.*;
 import java.time.LocalDate;

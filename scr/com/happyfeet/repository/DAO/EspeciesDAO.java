@@ -2,7 +2,7 @@ package com.happyfeet.repository.DAO;
 
 import com.happyfeet.model.entities.Especie;
 import com.happyfeet.repository.inter.IEspecieDAO;
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 
 import java.sql.*;
 import java.util.ArrayList;
