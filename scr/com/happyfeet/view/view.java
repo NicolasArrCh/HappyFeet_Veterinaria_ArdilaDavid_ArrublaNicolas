@@ -91,20 +91,20 @@ public class view {
         do {
             System.out.println("\n===== MENÚ PRINCIPAL HAPPY FEET =====");
             System.out.println("1. Gestión de Actividad Especial");
-            System.out.println("2. Gestión de Adopcion");
+            System.out.println("2. Gestión de Adopción");
             System.out.println("3. Gestión de Citas");
-            System.out.println("4. Gestión de Estado de citas");
-            System.out.println("5. Gestión de Duenos");
+            System.out.println("4. Gestión de Estado de Citas");
+            System.out.println("5. Gestión de Dueños");
             System.out.println("6. Gestión de Especies");
-            System.out.println("7. Gestión de Tipos de eventos");
+            System.out.println("7. Gestión de Tipos de Eventos");
             System.out.println("8. Gestión de Facturas");
-            System.out.println("9. Gestión de Historial Medico");
+            System.out.println("9. Gestión de Historial Médico");
             System.out.println("10. Gestión de Inventario");
-            System.out.println("11. Gestión de Items de Facturacion");
+            System.out.println("11. Gestión de Ítems de Facturación");
             System.out.println("12. Gestión de Mascotas");
-            System.out.println("13. Gestión de Tipos de productos");
+            System.out.println("13. Gestión de Tipos de Productos");
             System.out.println("14. Gestión de Proveedores");
-            System.out.println("15. Gestión de Puntos de cliente");
+            System.out.println("15. Gestión de Puntos de Cliente");
             System.out.println("16. Gestión de Usuarios");
             System.out.println("17. Gestión de Razas");
             System.out.println("18. Gestión de Veterinarios");
@@ -117,28 +117,28 @@ public class view {
                     case 1 -> actividadEspecialView.mostrarMenu();
                     case 2 -> adopcionView.mostrarMenu();
                     case 3 -> citaView.mostrarMenu();
-                    case 4 -> especieView.mostrarMenu();
-                    case 5 -> citaEstadoView.mostrarMenu();
-                    case 6 -> eventoTipoView.mostrarMenu();
-                    case 7 -> facturaView.mostrarMenu();
-                    case 8 -> historialMedicoView.mostrarMenu();
-                    case 9 -> inventarioView.mostrarMenu();
-                    case 10 -> itemFacturaView.mostrarMenu();
-                    case 11 -> mascotaView.mostrarMenu();
-                    case 12 -> productoTipoView.mostrarMenu();
-                    case 13 -> proveedorView.mostrarMenu();
-                    case 14 -> puntosClienteView.mostrarMenu();
-                    case 15 -> razaView.mostrarMenu();
+                    case 4 -> citaEstadoView.mostrarMenu();   // ✅ corregido (antes estaba especieView)
+                    case 5 -> duenoView.mostrarMenu();
+                    case 6 -> especieView.mostrarMenu();      // ✅ corregido (antes estaba eventoTipoView)
+                    case 7 -> eventoTipoView.mostrarMenu();
+                    case 8 -> facturaView.mostrarMenu();
+                    case 9 -> historialMedicoView.mostrarMenu();
+                    case 10 -> inventarioView.mostrarMenu();
+                    case 11 -> itemFacturaView.mostrarMenu();
+                    case 12 -> mascotaView.mostrarMenu();
+                    case 13 -> productoTipoView.mostrarMenu();
+                    case 14 -> proveedorView.mostrarMenu();
+                    case 15 -> puntosClienteView.mostrarMenu();
                     case 16 -> usuarioView.mostrarMenu();
-                    case 17 -> veterinarioView.mostrarMenu();
-                    case 18 -> citaEstadoView.mostrarMenu();
+                    case 17 -> razaView.mostrarMenu();
+                    case 18 -> veterinarioView.mostrarMenu();
                     case 0 -> System.out.println("👋 Saliendo del sistema Happy Feet...");
                     default -> System.out.println("⚠️ Opción no válida.");
                 }
             } catch (NumberFormatException e) {
                 System.out.println("⚠️ Debe ingresar un número válido.");
             }
-
         } while (opcion != 0);
+
     }
 }

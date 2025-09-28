@@ -2,76 +2,65 @@ package com.happyfeet.controller;
 
 import com.happyfeet.model.entities.EventoTipo;
 import com.happyfeet.service.impl.EventoTipoServiceImpl;
+import com.happyfeet.service.interfaces.IEventoTipoService;
 
 import java.util.List;
 
 public class EventoTipoController {
 
-    private EventoTipoServiceImpl eventoTipoService;
+    private final IEventoTipoService service = new EventoTipoServiceImpl();
 
-    public EventoTipoController() {
-        this.eventoTipoService = new EventoTipoServiceImpl();
-    }
-
-    // Crear nuevo tipo de evento
-    public String agregarEventoTipo(String nombre) {
+    public String agregarEventoTipo(EventoTipo eventoTipo) {
         try {
-            EventoTipo eventoTipo = new EventoTipo(0, nombre);
-            eventoTipoService.agregarEventoTipo(eventoTipo);
+            service.agregarEventoTipo(eventoTipo);
             return "✅ Tipo de evento registrado con éxito.";
         } catch (Exception e) {
             return "❌ Error al registrar tipo de evento: " + e.getMessage();
         }
     }
 
-    // Consultar todos los tipos de evento
     public List<EventoTipo> obtenerTodosEventoTipos() {
         try {
-            return eventoTipoService.obtenerTodosEventoTipos();
+            return service.obtenerTodosEventoTipos();
         } catch (Exception e) {
-            System.out.println("❌ Error al listar tipos de evento: " + e.getMessage());
-            return null;
+            System.out.println("❌ Error: " + e.getMessage());
+            return List.of();
         }
     }
 
-    // Consultar por ID
     public EventoTipo obtenerEventoTipoPorId(int id) {
         try {
-            return eventoTipoService.obtenerEventoTipoPorId(id);
+            return service.obtenerEventoTipoPorId(id);
         } catch (Exception e) {
-            System.out.println("❌ " + e.getMessage());
+            System.out.println("❌ Error: " + e.getMessage());
             return null;
         }
     }
 
-    // Consultar por nombre
-    public EventoTipo obtenerPorNombre(String nombre) {
+    public String actualizarEventoTipo(EventoTipo eventoTipo) {
         try {
-            return eventoTipoService.obtenerPorNombre(nombre);
-        } catch (Exception e) {
-            System.out.println("❌ " + e.getMessage());
-            return null;
-        }
-    }
-
-    // Actualizar tipo de evento
-    public String actualizarEventoTipo(int id, String nombre) {
-        try {
-            EventoTipo eventoTipo = new EventoTipo(id, nombre);
-            eventoTipoService.actualizarEventoTipo(eventoTipo);
+            service.actualizarEventoTipo(eventoTipo);
             return "✅ Tipo de evento actualizado correctamente.";
         } catch (Exception e) {
             return "❌ Error al actualizar tipo de evento: " + e.getMessage();
         }
     }
 
-    // Eliminar tipo de evento
     public String eliminarEventoTipo(int id) {
         try {
-            eventoTipoService.eliminarEventoTipo(id);
-            return "🗑️ Tipo de evento eliminado correctamente.";
+            service.eliminarEventoTipo(id);
+            return "✅ Tipo de evento eliminado correctamente.";
         } catch (Exception e) {
             return "❌ Error al eliminar tipo de evento: " + e.getMessage();
+        }
+    }
+
+    public EventoTipo obtenerPorNombre(String nombre) {
+        try {
+            return service.obtenerPorNombre(nombre);
+        } catch (Exception e) {
+            System.out.println("❌ Error: " + e.getMessage());
+            return null;
         }
     }
 }

@@ -8,8 +8,8 @@ public class ConexionBD {
     private static Connection connection = null;
 
     private static String url ="jdbc:mysql://localhost:3306/happyfeet?useSSL=false&serverTimezone=UTC";
-    private static String usuario="campus2023";
-    private static String contrasena="campus2023";
+    private static String usuario="root";
+    private static String contrasena="daju2820";
 
     private ConexionBD() {}
 
