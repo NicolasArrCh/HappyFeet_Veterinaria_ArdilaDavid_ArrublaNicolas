@@ -23,6 +23,11 @@ public class Mascota {
         this.urlFoto = urlFoto;
     }
 
+    // dentro de la clase Mascota
+    public Mascota(int id) {
+        this.id = id;
+    }
+
     // Getters y setters
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }

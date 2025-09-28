@@ -18,7 +18,7 @@ public class Inventario {
     public Inventario() {}
 
     // Constructor con parámetros
-    public Inventario(int id, String nombreProducto, ProductoTipo productoTipo, String descripcion, String lote, int cantidadStock, int stockMinimo, LocalDate fechaVancimiento, double precioVenta) {
+    public Inventario(int id, String nombreProducto, ProductoTipo productoTipo, String descripcion, String fabricante, String lote, int cantidadStock, int stockMinimo, LocalDate fechaVencimiento, double precioVenta) {
         this.id = id;
         this.nombreProducto = nombreProducto;
         this.productoTipo = productoTipo;

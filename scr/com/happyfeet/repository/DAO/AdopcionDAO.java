@@ -1,4 +1,4 @@
-package com.happyfeet.repository.;
+package com.happyfeet.repository.DAO;
 
 import com.happyfeet.model.entities.Adopcion;
 import com.happyfeet.model.entities.Mascota;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdopcionRepository implements IAdopcionDAO {
+public class AdopcionDAO implements IAdopcionDAO {
 
     @Override
     public void agregarAdopcion(Adopcion adopcion) {
@@ -99,7 +99,7 @@ public class AdopcionRepository implements IAdopcionDAO {
 
         // Por ahora solo creamos objetos con el id,
         // luego puedes reemplazar con un MascotaRepository y DuenoRepository reales
-        Mascota mascota = new Mascota(mascotaId, null, null, null, null);
+        Mascota mascota = new Mascota(mascotaId);
         Dueno dueno = new Dueno(duenoId, null, null, null, null, null);
 
         return new Adopcion(id, mascota, dueno, fecha, contrato);
