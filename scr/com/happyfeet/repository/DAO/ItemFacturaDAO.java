@@ -1,11 +1,10 @@
 package com.happyfeet.repository.DAO;
 
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 import com.happyfeet.model.entities.Factura;
 import com.happyfeet.model.entities.Inventario;
 import com.happyfeet.model.entities.ItemFactura;
 import com.happyfeet.model.entities.ItemFactura.*;
-import com.happyfeet.model.entities.ProductoTipo;
 import com.happyfeet.repository.inter.IItemFacturaDAO;
 
 import java.sql.*;
