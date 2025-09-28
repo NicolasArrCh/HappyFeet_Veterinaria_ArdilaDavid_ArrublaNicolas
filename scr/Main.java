@@ -1,4 +1,4 @@
-package com.happyfeet.controller;
+import com.happyfeet.util.ConexionBD;
 
 import java.sql.Connection;
 public class Main {

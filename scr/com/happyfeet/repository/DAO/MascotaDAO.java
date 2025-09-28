@@ -2,10 +2,9 @@ package com.happyfeet.repository.DAO;
 
 import com.happyfeet.model.entities.Mascota;
 import com.happyfeet.repository.inter.IMascotaDAO;
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

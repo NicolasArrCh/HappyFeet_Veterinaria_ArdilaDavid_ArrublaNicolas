@@ -3,7 +3,7 @@ package com.happyfeet.repository.DAO;
 import com.happyfeet.model.entities.Dueno;
 import com.happyfeet.model.entities.PuntosCliente;
 import com.happyfeet.repository.inter.IPuntosClienteDAO;
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 
 import java.sql.*;
 import java.util.ArrayList;

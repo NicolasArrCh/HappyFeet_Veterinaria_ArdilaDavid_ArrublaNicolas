@@ -1,8 +1,7 @@
 package com.happyfeet.repository.DAO;
 
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 import com.happyfeet.model.entities.Veterinario;
-import com.happyfeet.model.entities.Veterinario.*;
 import com.happyfeet.repository.inter.IVeterinarioDAO;
 
 import java.sql.*;

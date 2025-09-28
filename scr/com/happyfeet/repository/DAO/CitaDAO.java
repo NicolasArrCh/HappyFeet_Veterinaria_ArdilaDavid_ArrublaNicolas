@@ -4,7 +4,7 @@ import com.happyfeet.model.entities.Cita;
 import com.happyfeet.model.entities.CitaEstado;
 import com.happyfeet.model.entities.Mascota;
 import com.happyfeet.repository.inter.ICitaDAO;
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 
 import java.sql.*;
 import java.time.LocalDateTime;

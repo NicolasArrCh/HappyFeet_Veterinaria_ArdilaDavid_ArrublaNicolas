@@ -4,7 +4,7 @@ import com.happyfeet.model.entities.Adopcion;
 import com.happyfeet.model.entities.Mascota;
 import com.happyfeet.model.entities.Dueno;
 import com.happyfeet.repository.inter.IAdopcionDAO;
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 
 import java.sql.*;
 import java.time.LocalDate;

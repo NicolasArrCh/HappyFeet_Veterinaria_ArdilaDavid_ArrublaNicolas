@@ -1,8 +1,7 @@
 package com.happyfeet.repository.DAO;
 
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 import com.happyfeet.model.entities.CitaEstado;
-import com.happyfeet.model.entities.CitaEstado.*;
 import com.happyfeet.repository.inter.ICitaEstadoDAO;
 
 import java.sql.*;

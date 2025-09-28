@@ -1,8 +1,7 @@
 package com.happyfeet.repository.DAO;
 
-import com.happyfeet.controller.ConexionBD;
+import com.happyfeet.util.ConexionBD;
 import com.happyfeet.model.entities.ActividadEspecial;
-import com.happyfeet.model.entities.ActividadEspecial.*;
 import com.happyfeet.repository.inter.IActividadEspecialDAO;
 import com.happyfeet.model.enums.TipoActividad;
 
