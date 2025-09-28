@@ -1,17 +1,13 @@
 package com.happyfeet.model.entities;
 
+import com.happyfeet.model.enums.Rol;
+
 public class Usuario {
     private int id;
     private String nombreUsuario;
     private String contrasena;
     private Rol rol;
 
-    // Enum interno para el rol
-    public enum Rol {
-        ADMIN,
-        VETERINARIO,
-        AUXILIAR
-    }
 
     public Usuario() {}
 

@@ -4,6 +4,7 @@ import com.happyfeet.controller.ConexionBD;
 import com.happyfeet.model.entities.Usuario;
 import com.happyfeet.model.entities.Usuario.*;
 import com.happyfeet.repository.inter.IUsuarioDAO;
+import com.happyfeet.model.enums.Rol;
 
 import java.sql.*;
 import java.util.ArrayList;

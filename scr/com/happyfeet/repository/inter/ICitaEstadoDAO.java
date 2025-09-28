@@ -9,4 +9,5 @@ public interface ICitaEstadoDAO {
     List<CitaEstado> obtenerTodasCitaEstados();
     CitaEstado obtenerCitaEstadoPorId(Integer id);
     void actualizarCitaEstado(CitaEstado citaEstado);
+    void eliminarCitaEstado(Integer id);
 }

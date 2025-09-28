@@ -1,114 +1,107 @@
-package com.happyfeet.repository.DAO;
+package com.happyfeet.repository.;
 
-import com.happyfeet.controller.ConexionBD;
 import com.happyfeet.model.entities.Adopcion;
-import com.happyfeet.model.entities.Adopcion.*;
+import com.happyfeet.model.entities.Mascota;
+import com.happyfeet.model.entities.Dueno;
 import com.happyfeet.repository.inter.IAdopcionDAO;
-
+import com.happyfeet.controller.ConexionBD;
 
 import java.sql.*;
-        import java.util.ArrayList;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-public class AdopcionDAO implements IAdopcionDAO {
-
-    private Connection con;
-
-    public AdopcionDAO() {
-        con = ConexionBD.getConnection();
-    }
+public class AdopcionRepository implements IAdopcionDAO {
 
     @Override
     public void agregarAdopcion(Adopcion adopcion) {
-        String sql = "Insert into adopciones (mascota_id, nuevo_dueno_id, fecha, contrato) values (?, ?, ?, ?)";
-
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
-            pstmt.setInt(1, adopcion.getMascota().getId());
-            pstmt.setInt(2, adopcion.getNuevoDueno().getId());
-            pstmt.setDate(3, java.sql.Date.valueOf(adopcion.getFecha()));
-            pstmt.setString(4, adopcion.getContrato());
-            pstmt.executeUpdate();
-        }catch (SQLException e) {
-            throw new RuntimeException("Error al agregar informacion" + e.getMessage());
+        String sql = "INSERT INTO adopciones (mascota_id, nuevo_dueno_id, fecha, contrato) VALUES (?, ?, ?, ?)";
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, adopcion.getMascota().getId());
+            stmt.setInt(2, adopcion.getNuevoDueno().getId());
+            stmt.setDate(3, Date.valueOf(adopcion.getFecha()));
+            stmt.setString(4, adopcion.getContrato());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace(); // después lo mandamos a logs
         }
     }
 
     @Override
     public List<Adopcion> obtenerTodasAdopcion() {
-        List<Adopcion> lst = new ArrayList<>();
-        String sql = "select * from adopciones";
-
-        try(Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)) {
-
+        List<Adopcion> adopciones = new ArrayList<>();
+        String sql = "SELECT * FROM adopciones";
+        try (Connection conn = ConexionBD.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
-                Adopcion adp = new Adopcion(
-                        rs.getInt("id"),
-                        rs.getInt("mascota_id"),
-                        rs.getInt("nuevo_dueno_id"),
-                        rs.getDate("fecha"),
-                        rs.getString("contrato"));
-
-                lst.add(adp);
+                Adopcion adopcion = mapResultSetToAdopcion(rs);
+                adopciones.add(adopcion);
             }
-        }catch (SQLException e){
-            System.out.println("Error al consultar todas las actividades");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return lst;
+        return adopciones;
     }
 
     @Override
     public Adopcion obtenerAdopcionPorId(Integer id) {
-        Adopcion adp = null;
-
-        String sql = "select * from adopciones where id = ?";
-
-        try(PreparedStatement stmt = con.prepareStatement(sql);){
-
+        String sql = "SELECT * FROM adopciones WHERE id = ?";
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    adp = new Adopcion(
-                            rs.getInt("id"),
-                            rs.getInt("mascota_id"),
-                            rs.getInt("nuevo_dueno_id"),
-                            rs.getDate("fecha"),
-                            rs.getString("contrato"));
-                }
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToAdopcion(rs);
             }
-        }catch (SQLException e){
-            throw new RuntimeException("Error al consultar todas las actividades" + id);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return adp;
+        return null;
     }
 
     @Override
     public void actualizarAdopcion(Adopcion adopcion) {
-        String sql = "update adopciones set mascota_id = ?, nuevo_dueno = ?, fecha = ?, contrato = ? where id = ?";
-
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
-            pstmt.setInt(1, adopcion.getMascota().getId());
-            pstmt.setInt(2, adopcion.getNuevoDueno().getId());
-            pstmt.setDate(3, java.sql.Date.valueOf(adopcion.getFecha()));
-            pstmt.setString(4, adopcion.getContrato());
-            pstmt.executeUpdate();
-        }catch (SQLException e) {
-            throw new RuntimeException("Error al actualizar la informacion " + adopcion);
+        String sql = "UPDATE adopciones SET mascota_id = ?, nuevo_dueno_id = ?, fecha = ?, contrato = ? WHERE id = ?";
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, adopcion.getMascota().getId());
+            stmt.setInt(2, adopcion.getNuevoDueno().getId());
+            stmt.setDate(3, Date.valueOf(adopcion.getFecha()));
+            stmt.setString(4, adopcion.getContrato());
+            stmt.setInt(5, adopcion.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
     @Override
     public void eliminarAdopcion(Integer id) {
-        String sql = "delete from adopciones where id = ?";
-
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
-            pstmt.setInt(1, id);
-            pstmt.executeUpdate();
-        }catch (SQLException e) {
-            throw new RuntimeException("Error al eliminar la informacion ID: " + id);
+        String sql = "DELETE FROM adopciones WHERE id = ?";
+        try (Connection conn = ConexionBD.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
-}
 
+    // 🔥 Método auxiliar para mapear ResultSet -> Adopcion
+    private Adopcion mapResultSetToAdopcion(ResultSet rs) throws SQLException {
+        int id = rs.getInt("id");
+        int mascotaId = rs.getInt("mascota_id");
+        int duenoId = rs.getInt("nuevo_dueno_id");
+        LocalDate fecha = rs.getDate("fecha").toLocalDate();
+        String contrato = rs.getString("contrato");
+
+        // Por ahora solo creamos objetos con el id,
+        // luego puedes reemplazar con un MascotaRepository y DuenoRepository reales
+        Mascota mascota = new Mascota(mascotaId, null, null, null, null);
+        Dueno dueno = new Dueno(duenoId, null, null, null, null, null);
+
+        return new Adopcion(id, mascota, dueno, fecha, contrato);
+    }
+}

@@ -4,6 +4,7 @@ import com.happyfeet.controller.ConexionBD;
 import com.happyfeet.model.entities.ActividadEspecial;
 import com.happyfeet.model.entities.ActividadEspecial.*;
 import com.happyfeet.repository.inter.IActividadEspecialDAO;
+import com.happyfeet.model.enums.TipoActividad;
 
 
 import java.sql.*;
@@ -107,4 +108,3 @@ public class ActividadEspecialDAO implements IActividadEspecialDAO {
         }
     }
 }
-

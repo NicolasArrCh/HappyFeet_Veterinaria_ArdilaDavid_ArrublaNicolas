@@ -1,5 +1,7 @@
 package com.happyfeet.model.entities;
 
+import com.happyfeet.model.enums.TipoActividad;
+
 import java.util.Date;
 
 public class ActividadEspecial {
@@ -8,11 +10,6 @@ public class ActividadEspecial {
     private String descripcion;
     private Date fecha;
 
-    public enum TipoActividad {
-        ADOPCION,
-        VACUNACION,
-        CLUB_FRECUENTES
-    }
 
     public ActividadEspecial() {}
 
