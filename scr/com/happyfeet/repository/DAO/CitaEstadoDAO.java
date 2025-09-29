@@ -25,8 +25,10 @@ public class CitaEstadoDAO implements ICitaEstadoDAO {
                     citaEstado.setId(rs.getInt(1));
                 }
             }
-        }catch (SQLException e) {
-            throw new RuntimeException("Error al agregar los nombres" + e.getMessage());
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new RuntimeException("❌ Ya existe un estado con ese nombre: " + citaEstado.getNombre());
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al agregar el estado: " + e.getMessage(), e);
         }
     }
 
@@ -57,7 +59,7 @@ public class CitaEstadoDAO implements ICitaEstadoDAO {
     public CitaEstado obtenerCitaEstadoPorId(Integer id) {
         CitaEstado ce = null;
 
-        String sql = "select * from actividades_especiales where id = ?";
+        String sql = "select * from cita_estados set nombre = ? where id = ?";
 
         try(Connection con = ConexionBD.getConnection();
             PreparedStatement stmt = con.prepareStatement(sql);){
@@ -67,11 +69,11 @@ public class CitaEstadoDAO implements ICitaEstadoDAO {
                 if (rs.next()) {
                     ce = new CitaEstado(
                             rs.getInt("id"),
-                            rs.getString("descripcion"));
+                            rs.getString("nombre"));
                 }
             }
         }catch (SQLException e){
-            throw new RuntimeException("Error al consultar todas los nombres" + id);
+            throw new RuntimeException("Error al al buscar estdo con ID: " + id);
         }
 
         return ce;
@@ -79,14 +81,17 @@ public class CitaEstadoDAO implements ICitaEstadoDAO {
 
     @Override
     public void actualizarCitaEstado(CitaEstado citaEstado) {
-        String sql = "update cita_estados set nombre = ?";
+        String sql = "update cita_estados set nombre = ? WHERE id = ?";
 
         try(Connection con = ConexionBD.getConnection();
             PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setString(1, citaEstado.getNombre());
+            pstmt.setInt(2, citaEstado.getId());
             pstmt.executeUpdate();
-        }catch (SQLException e) {
-            throw new RuntimeException("Error al actualizar el nombre " + citaEstado);
+        } catch (SQLIntegrityConstraintViolationException e) {
+            throw new RuntimeException("❌ Ya existe un estado con ese nombre: " + citaEstado.getNombre());
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al actualizar el estado con ID: " + citaEstado.getId(), e);
         }
     }
 
