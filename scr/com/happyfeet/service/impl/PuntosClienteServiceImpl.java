@@ -1,6 +1,7 @@
 package com.happyfeet.service.impl;
 
 import com.happyfeet.model.entities.PuntosCliente;
+import com.happyfeet.repository.DAO.DuenoDAO;
 import com.happyfeet.repository.DAO.PuntosClienteDAO;
 import com.happyfeet.repository.inter.IPuntosClienteDAO;
 import com.happyfeet.service.interfaces.IPuntosClienteService;
@@ -18,6 +19,15 @@ public class PuntosClienteServiceImpl implements IPuntosClienteService {
         }
         if (puntosCliente.getDueno() == null || puntosCliente.getDueno().getId() <= 0) {
             throw new Exception("El cliente debe tener un dueño válido.");
+        }
+        DuenoDAO duenoDAO = new DuenoDAO();
+
+        if (puntosCliente.getDueno().getId() == 0) {
+            throw new Exception("La mascota debe tener un dueño válido antes de registrarla");
+        } else {
+            if (duenoDAO.obtenerDuenoPorId(puntosCliente.getDueno().getId()) == null) {
+                throw new Exception("El dueno con ID " + puntosCliente.getDueno().getId() + " no existe en la BD");
+            }
         }
         puntosClienteDAO.agregarPuntosCliente(puntosCliente);
     }

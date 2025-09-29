@@ -1,7 +1,9 @@
 package com.happyfeet.service.impl;
 
 import com.happyfeet.model.entities.HistorialMedico;
+import com.happyfeet.repository.DAO.EventoTipoDAO;
 import com.happyfeet.repository.DAO.HistorialMedicoDAO;
+import com.happyfeet.repository.DAO.MascotaDAO;
 import com.happyfeet.repository.inter.IHistorialMedicoDAO;
 import com.happyfeet.service.interfaces.IHistorialMedicoService;
 
@@ -27,6 +29,26 @@ public class HistorialMedicoServiceImpl implements IHistorialMedicoService {
         if (historial.getDescripcion() == null || historial.getDescripcion().trim().isEmpty()) {
             throw new Exception("La descripción es obligatoria");
         }
+
+        MascotaDAO mascotaDAO = new MascotaDAO();
+        EventoTipoDAO eventoTipoDAO = new EventoTipoDAO();
+
+        if (historial.getMascota().getId() == 0) {
+            mascotaDAO.agregarMascota(historial.getMascota());
+        } else {
+            if (mascotaDAO.obtenerMascotaPorId(historial.getMascota().getId()) == null) {
+                throw new Exception("La mascota con ID " + historial.getMascota().getId() + " no existe en la BD");
+            }
+        }
+
+        if (historial.getEventoTipo().getId() == 0) {
+            eventoTipoDAO.agregarEventoTipo(historial.getEventoTipo());
+        } else {
+            if (eventoTipoDAO.obtenerEventoTipoPorId(historial.getEventoTipo().getId()) == null) {
+                throw new Exception("El tipo de evento con ID " + historial.getEventoTipo().getId() + " no existe en la BD");
+            }
+        }
+
         historialMedicoDAO.agregarHistorialMedico(historial);
     }
 

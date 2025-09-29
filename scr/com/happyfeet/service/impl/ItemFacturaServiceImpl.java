@@ -1,6 +1,7 @@
 package com.happyfeet.service.impl;
 
 import com.happyfeet.model.entities.ItemFactura;
+import com.happyfeet.repository.DAO.FacturaDAO;
 import com.happyfeet.repository.DAO.ItemFacturaDAO;
 import com.happyfeet.repository.inter.IItemFacturaDAO;
 import com.happyfeet.service.interfaces.IItemFacturaService;
@@ -27,6 +28,10 @@ public class ItemFacturaServiceImpl implements IItemFacturaService {
         if (itemFactura.getSubtotal() <= 0) {
             itemFactura.setSubtotal(itemFactura.getCantidad() * itemFactura.getPrecioUnitario());
         }
+
+        FacturaDAO facturaDAO = new FacturaDAO();
+
+        if (itemFactura.get)
 
         itemFacturaDAO.agregarItemFactura(itemFactura);
     }

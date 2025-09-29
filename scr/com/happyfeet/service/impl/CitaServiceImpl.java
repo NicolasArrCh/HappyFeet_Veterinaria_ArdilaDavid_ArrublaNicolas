@@ -3,6 +3,8 @@ package com.happyfeet.service.impl;
 import com.happyfeet.model.entities.Cita;
 import com.happyfeet.model.entities.CitaEstado;
 import com.happyfeet.repository.DAO.CitaDAO;
+import com.happyfeet.repository.DAO.CitaEstadoDAO;
+import com.happyfeet.repository.DAO.MascotaDAO;
 import com.happyfeet.repository.inter.ICitaDAO;
 import com.happyfeet.service.interfaces.ICitaService;
 
@@ -27,6 +29,24 @@ public class CitaServiceImpl implements ICitaService {
         }
         if (cita.getEstado() == null) {
             throw new Exception("El estado de la cita es obligatorio");
+        }
+        MascotaDAO mascotaDAO = new MascotaDAO();
+        CitaEstadoDAO citaEstadoDAO = new CitaEstadoDAO();
+
+        if (cita.getMascota().getId() == 0) {
+            mascotaDAO.agregarMascota(cita.getMascota());
+        } else {
+            if (mascotaDAO.obtenerMascotaPorId(cita.getMascota().getId()) == null) {
+                throw new Exception("La mascota con ID " + cita.getMascota().getId() + " no existe en la BD");
+            }
+        }
+
+        if (cita.getEstado().getId() == 0) {
+            citaEstadoDAO.agregarCitaEstado(cita.getEstado());
+        } else {
+            if (citaEstadoDAO.obtenerCitaEstadoPorId(cita.getEstado().getId()) == null) {
+                throw new Exception("La cita con ID " + cita.getEstado().getId() + " no existe en la BD");
+            }
         }
         citaDAO.agregarCita(cita);
     }

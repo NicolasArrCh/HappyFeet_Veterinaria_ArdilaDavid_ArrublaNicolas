@@ -1,6 +1,7 @@
 package com.happyfeet.service.impl;
 
 import com.happyfeet.model.entities.Raza;
+import com.happyfeet.repository.DAO.EspeciesDAO;
 import com.happyfeet.repository.DAO.RazaDAO;
 import com.happyfeet.service.interfaces.IRazaService;
 
@@ -25,6 +26,16 @@ public class RazaServiceImpl implements IRazaService {
         if (raza.getEspecie() == null || raza.getEspecie().getId() <= 0) {
             throw new Exception("La especie asociada es obligatoria");
         }
+        EspeciesDAO especiesDAO = new EspeciesDAO();
+
+        if (raza.getEspecie().getId() == 0) {
+            throw new Exception("La raza debe de tener una raza valida antes de registrala");
+        } else {
+            if (especiesDAO.obtenerEspeciePorId(raza.getEspecie().getId()) == null) {
+                throw new Exception("La raza con ID " + raza.getEspecie().getId() + " no existe en la BD");
+            }
+        }
+
         razaDAO.agregarRaza(raza);
     }
 

@@ -1,7 +1,10 @@
 package com.happyfeet.service.impl;
 
 import com.happyfeet.model.entities.Adopcion;
+import com.happyfeet.model.entities.Dueno;
 import com.happyfeet.repository.DAO.AdopcionDAO;
+import com.happyfeet.repository.DAO.DuenoDAO;
+import com.happyfeet.repository.DAO.MascotaDAO;
 import com.happyfeet.repository.inter.IAdopcionDAO;
 import com.happyfeet.service.interfaces.IAdopcionService;
 
@@ -27,6 +30,25 @@ public class AdopcionServiceImpl implements IAdopcionService {
         if (adopcion.getContrato() == null || adopcion.getContrato().trim().isEmpty()) {
             throw new Exception("El contrato de adopción es obligatorio");
         }
+        DuenoDAO duenoDAO = new DuenoDAO();
+        MascotaDAO mascotaDAO = new MascotaDAO();
+
+        if (adopcion.getNuevoDueno().getId() == 0) {
+            duenoDAO.agregarDueno(adopcion.getNuevoDueno());
+        } else {
+            if (duenoDAO.obtenerDuenoPorId(adopcion.getNuevoDueno().getId()) == null) {
+                throw new Exception("El dueno con ID " + adopcion.getNuevoDueno().getId() + " no existe en la BD");
+            }
+        }
+
+        if (adopcion.getMascota().getId() == 0) {
+            mascotaDAO.agregarMascota(adopcion.getMascota());
+        } else {
+            if (mascotaDAO.obtenerMascotaPorId(adopcion.getMascota().getId()) == null) {
+                throw new Exception("La mascota con ID " + adopcion.getMascota().getId() + " no existe en la BD");
+            }
+        }
+
         adopcionDAO.agregarAdopcion(adopcion);
     }
 

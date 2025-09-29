@@ -1,5 +1,6 @@
 package com.happyfeet.service.impl;
 
+import com.happyfeet.model.entities.Adopcion;
 import com.happyfeet.model.entities.Dueno;
 import com.happyfeet.repository.DAO.DuenoDAO;
 import com.happyfeet.repository.inter.IDuenoDAO;

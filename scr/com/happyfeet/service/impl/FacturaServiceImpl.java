@@ -1,6 +1,7 @@
 package com.happyfeet.service.impl;
 
 import com.happyfeet.model.entities.Factura;
+import com.happyfeet.repository.DAO.DuenoDAO;
 import com.happyfeet.repository.DAO.FacturaDAO;
 import com.happyfeet.repository.inter.IFacturaDAO;
 import com.happyfeet.service.interfaces.IFacturaService;
@@ -24,6 +25,17 @@ public class FacturaServiceImpl implements IFacturaService {
         if (factura.getTotal() <= 0) {
             throw new Exception("El total de la factura debe ser mayor a 0");
         }
+
+        DuenoDAO duenoDAO = new DuenoDAO();
+
+        if (factura.getDueno().getId() == 0) {
+            throw new Exception("La factura debe tener un dueno valido antes de registrarla");
+        } else {
+            if (duenoDAO.obtenerDuenoPorId(factura.getDueno().getId()) == null) {
+                throw new Exception("El dueno con ID " + factura.getDueno().getId() + " no existe en la BD");
+            }
+        }
+
         facturaDAO.agregarFactura(factura);
     }
 

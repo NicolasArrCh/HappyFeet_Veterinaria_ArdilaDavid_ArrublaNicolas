@@ -1,7 +1,9 @@
 package com.happyfeet.service.impl;
 
 import com.happyfeet.model.entities.Mascota;
+import com.happyfeet.repository.DAO.DuenoDAO;
 import com.happyfeet.repository.DAO.MascotaDAO;
+
 import com.happyfeet.repository.inter.IMascotaDAO;
 import com.happyfeet.service.interfaces.IMascotaService;
 
@@ -24,6 +26,15 @@ public class MascotaServiceImpl implements IMascotaService {
             throw new Exception("La fecha de nacimiento no puede ser en el futuro.");
         }
 
+        DuenoDAO duenoDAO = new DuenoDAO();
+
+        if (mascota.getDuenoId() == 0) {
+            throw new Exception("La mascota debe tener un dueño válido antes de registrarla");
+        } else {
+            if (duenoDAO.obtenerDuenoPorId(mascota.getDuenoId()) == null) {
+                throw new Exception("El dueno con ID " + mascota.getDuenoId() + " no existe en la BD");
+            }
+        }
         mascotaDAO.agregarMascota(mascota);
     }
 
