@@ -12,17 +12,12 @@ import java.util.List;
 
 public class ActividadEspecialDAO implements IActividadEspecialDAO {
 
-    private Connection con;
-
-    public ActividadEspecialDAO() {
-        con = ConexionBD.getConnection();
-    }
-
     @Override
     public void agregarActividadEspecial(ActividadEspecial actividadEspecial) {
         String sql = "Insert into actividades_especiales (tipo, descripcion, fecha) values (?, ?, ?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setString(1, actividadEspecial.getTipo().name());
             pstmt.setString(2, actividadEspecial.getDescripcion());
             pstmt.setDate(3, new java.sql.Date(actividadEspecial.getFecha().getTime()));
@@ -37,7 +32,8 @@ public class ActividadEspecialDAO implements IActividadEspecialDAO {
         List<ActividadEspecial> lst = new ArrayList<>();
         String sql = "select * from actividades_especiales";
 
-        try(Statement stmt = con.createStatement();
+        try(Connection con = ConexionBD.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -62,7 +58,8 @@ public class ActividadEspecialDAO implements IActividadEspecialDAO {
 
         String sql = "select * from actividades_especiales where id = ?";
 
-        try(PreparedStatement stmt = con.prepareStatement(sql);){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);){
 
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -85,7 +82,8 @@ public class ActividadEspecialDAO implements IActividadEspecialDAO {
     public void actualizarActividadEspecial(ActividadEspecial actividadEspecial) {
         String sql = "update actividades_especiales set tipo = ?, descripcion = ?, fecha = ?, where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setString(1, actividadEspecial.getTipo().name());
             pstmt.setString(2, actividadEspecial.getDescripcion());
             pstmt.setDate(3, new java.sql.Date(actividadEspecial.getFecha().getTime()));
@@ -99,7 +97,8 @@ public class ActividadEspecialDAO implements IActividadEspecialDAO {
     public void eliminarActividadEspecial(Integer id) {
         String sql = "delete from actividades_especiales where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }catch (SQLException e) {

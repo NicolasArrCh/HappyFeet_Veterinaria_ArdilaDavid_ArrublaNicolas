@@ -20,7 +20,8 @@ public class ProductoTipoDAO implements IProductoTipoDAO {
     public void agregarProductoTipo(ProductoTipo productoTipo) {
         String sql = "Insert into producto_tipos (nombre) values (?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setString(2, productoTipo.getNombre());
             pstmt.executeUpdate();
 
@@ -39,7 +40,8 @@ public class ProductoTipoDAO implements IProductoTipoDAO {
         List<ProductoTipo> lst = new ArrayList<>();
         String sql = "select * from producto_tipos";
 
-        try(Statement stmt = con.createStatement();
+        try(Connection con = ConexionBD.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -62,7 +64,8 @@ public class ProductoTipoDAO implements IProductoTipoDAO {
 
         String sql = "select * from producto_tipos where id = ?";
 
-        try(PreparedStatement stmt = con.prepareStatement(sql);){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);){
 
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -83,7 +86,8 @@ public class ProductoTipoDAO implements IProductoTipoDAO {
     public void actualizarProductoTipo(ProductoTipo productoTipo) {
         String sql = "update producto_tipo set nombre = ?, where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setString(1, productoTipo.getNombre());
             pstmt.executeUpdate();
         }catch (SQLException e) {
@@ -95,7 +99,8 @@ public class ProductoTipoDAO implements IProductoTipoDAO {
     public void eliminarProductoTipo(Integer id) {
         String sql = "delete from producto_tipos where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }catch (SQLException e) {

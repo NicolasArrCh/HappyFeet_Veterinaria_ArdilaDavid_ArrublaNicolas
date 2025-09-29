@@ -13,17 +13,12 @@ import java.util.List;
 
 public class ItemFacturaDAO implements IItemFacturaDAO {
 
-    private Connection con;
-
-    public ItemFacturaDAO() {
-        con = ConexionBD.getConnection();
-    }
-
     @Override
     public void agregarItemFactura(ItemFactura itemFactura) {
         String sql = "Insert into items_factura (factura_id, producto_id, servicio_descripcion, cantidad, precio_unitario, subtotal) values (?, ?, ?, ?, ?, ?)";
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (Connection con = ConexionBD.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setInt(1, itemFactura.getFactura().getId());
             pstmt.setInt(2, itemFactura.getProducto().getId());
             pstmt.setString(3, itemFactura.getServicioDescripcion());
@@ -41,7 +36,8 @@ public class ItemFacturaDAO implements IItemFacturaDAO {
         List<ItemFactura> lst = new ArrayList<>();
         String sql = "select * from items_factura";
 
-        try (Statement stmt = con.createStatement();
+        try (Connection con = ConexionBD.getConnection();
+             Statement stmt = con.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -73,7 +69,8 @@ public class ItemFacturaDAO implements IItemFacturaDAO {
 
         String sql = "select * from items_factura where id = ?";
 
-        try (PreparedStatement stmt = con.prepareStatement(sql);) {
+        try (Connection con = ConexionBD.getConnection();
+             PreparedStatement stmt = con.prepareStatement(sql);) {
 
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -103,7 +100,8 @@ public class ItemFacturaDAO implements IItemFacturaDAO {
     public void actualizarItemFactura(ItemFactura itemFactura) {
         String sql = "update items set factura_id = ?, producto_id = ?, servicio_descripcion = ?, cantidad = ?, precio_unitario = ?, subtotal = ?, where id = ?";
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (Connection con = ConexionBD.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setInt(1, itemFactura.getFactura().getId());
             pstmt.setInt(2, itemFactura.getProducto().getId());
             pstmt.setString(3, itemFactura.getServicioDescripcion());
@@ -120,7 +118,8 @@ public class ItemFacturaDAO implements IItemFacturaDAO {
     public void eliminarItemFactura(Integer id) {
         String sql = "delete from actividades_especiales where id = ?";
 
-        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+        try (Connection con = ConexionBD.getConnection();
+             PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {

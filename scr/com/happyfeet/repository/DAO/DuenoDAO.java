@@ -10,17 +10,12 @@ import java.util.List;
 
 public class DuenoDAO implements IDuenoDAO {
 
-    private Connection con;
-
-    public DuenoDAO() {
-        con = ConexionBD.getConnection();
-    }
-
     @Override
     public void agregarDueno(Dueno dueno) {
         String sql = "Insert into duenos (nombre_completo, documento_identidad, direccion, telefono, email) values (?, ?, ?, ?, ?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setString(1, dueno.getNombreCompleto());
             pstmt.setString(2, dueno.getDocumentoIdentidad());
             pstmt.setString(3, dueno.getDireccion());
@@ -43,7 +38,8 @@ public class DuenoDAO implements IDuenoDAO {
         List<Dueno> lst = new ArrayList<>();
         String sql = "select * from duenos";
 
-        try(Statement stmt = con.createStatement();
+        try(Connection con = ConexionBD.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -70,7 +66,8 @@ public class DuenoDAO implements IDuenoDAO {
 
         String sql = "select * from duenos where id = ?";
 
-        try(PreparedStatement stmt = con.prepareStatement(sql);){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);){
 
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -95,7 +92,8 @@ public class DuenoDAO implements IDuenoDAO {
     public void actualizarDueno(Dueno dueno) {
         String sql = "update duenos set nombre_completo = ?, documento_identidad = ?, direccion = ?, telefono = ?, email = ?, where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setString(1, dueno.getNombreCompleto());
             pstmt.setString(2, dueno.getDocumentoIdentidad());
             pstmt.setString(3, dueno.getDireccion());
@@ -111,7 +109,8 @@ public class DuenoDAO implements IDuenoDAO {
     public void eliminarDueno(Integer id) {
         String sql = "delete from duenos where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }catch (SQLException e) {

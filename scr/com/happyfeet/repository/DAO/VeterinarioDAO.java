@@ -10,17 +10,12 @@ import java.util.List;
 
 public class VeterinarioDAO implements IVeterinarioDAO {
 
-    private Connection con;
-
-    public VeterinarioDAO() {
-        con = ConexionBD.getConnection();
-    }
-
     @Override
     public void agregarVeterinario(Veterinario veterinario) {
         String sql = "Insert into veterinarios (nombre_completo, documento_identidad, especialidad, telefono, email) values (?, ?, ?, ?, ?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setString(1, veterinario.getNombreCompleto());
             pstmt.setString(2, veterinario.getDocumentoIdentidad());
             pstmt.setString(3, veterinario.getEspecialidad());
@@ -38,7 +33,8 @@ public class VeterinarioDAO implements IVeterinarioDAO {
         List<Veterinario> lst = new ArrayList<>();
         String sql = "select * from veterinarios";
 
-        try(Statement stmt = con.createStatement();
+        try(Connection con = ConexionBD.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -65,7 +61,8 @@ public class VeterinarioDAO implements IVeterinarioDAO {
 
         String sql = "select * from veterinarios where id = ?";
 
-        try(PreparedStatement stmt = con.prepareStatement(sql);){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);){
 
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -90,7 +87,8 @@ public class VeterinarioDAO implements IVeterinarioDAO {
     public void actualizarVeterinario(Veterinario veterinario) {
         String sql = "update veterinarios set nombre_completo = ?, documento_identidad = ?, especialidad = ?, telefono = ?, email = ?, where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setString(1, veterinario.getNombreCompleto());
             pstmt.setString(2, veterinario.getDocumentoIdentidad());
             pstmt.setString(3, veterinario.getEspecialidad());
@@ -106,7 +104,8 @@ public class VeterinarioDAO implements IVeterinarioDAO {
     public void eliminarVeterinario(Integer id) {
         String sql = "delete from veterinarios where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }catch (SQLException e) {

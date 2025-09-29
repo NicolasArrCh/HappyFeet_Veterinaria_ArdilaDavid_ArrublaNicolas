@@ -11,17 +11,12 @@ import java.util.List;
 
 public class CitaEstadoDAO implements ICitaEstadoDAO {
 
-    private Connection con;
-
-    public CitaEstadoDAO() {
-        con = ConexionBD.getConnection();
-    }
-
     @Override
     public void agregarCitaEstado(CitaEstado citaEstado) {
         String sql = "Insert into cita_estados (nombre) values (?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setString(1, citaEstado.getNombre());
             pstmt.executeUpdate();
 
@@ -40,7 +35,8 @@ public class CitaEstadoDAO implements ICitaEstadoDAO {
         List<CitaEstado> lst = new ArrayList<>();
         String sql = "select * from cita_estados";
 
-        try(Statement stmt = con.createStatement();
+        try(Connection con = ConexionBD.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -63,7 +59,8 @@ public class CitaEstadoDAO implements ICitaEstadoDAO {
 
         String sql = "select * from actividades_especiales where id = ?";
 
-        try(PreparedStatement stmt = con.prepareStatement(sql);){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);){
 
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -84,7 +81,8 @@ public class CitaEstadoDAO implements ICitaEstadoDAO {
     public void actualizarCitaEstado(CitaEstado citaEstado) {
         String sql = "update cita_estados set nombre = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setString(1, citaEstado.getNombre());
             pstmt.executeUpdate();
         }catch (SQLException e) {
@@ -96,7 +94,8 @@ public class CitaEstadoDAO implements ICitaEstadoDAO {
     public void eliminarCitaEstado(Integer id) {
         String sql = "delete from cita_estados where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }catch (SQLException e) {

@@ -12,17 +12,12 @@ import java.util.List;
 
 public class FacturaDAO implements IFacturaDAO {
 
-    private Connection con;
-
-    public FacturaDAO() {
-        con = ConexionBD.getConnection();
-    }
-
     @Override
     public void agregarFactura(Factura factura) {
         String sql = "Insert into facturas (dueno_id, fecha_emision, total) values (?, ?, ?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setInt(1, factura.getDueno().getId());
             pstmt.setDate(2, Date.valueOf(factura.getFechaEmision().toLocalDate()));
             pstmt.setDouble(3, factura.getTotal());
@@ -43,7 +38,8 @@ public class FacturaDAO implements IFacturaDAO {
         List<Factura> lst = new ArrayList<>();
         String sql = "select * from facturas";
 
-        try(Statement stmt = con.createStatement();
+        try(Connection con = ConexionBD.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -75,7 +71,8 @@ public class FacturaDAO implements IFacturaDAO {
 
         String sql = "select * from facturas where id = ?";
 
-        try(PreparedStatement stmt = con.prepareStatement(sql);){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);){
 
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -105,7 +102,8 @@ public class FacturaDAO implements IFacturaDAO {
     public void actualizarFactura(Factura factura) {
         String sql = "update facturas set dueno_id = ?, fecha_emision = ?, total = ?, where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setInt(1, factura.getDueno().getId());
             pstmt.setDate(2, Date.valueOf(factura.getFechaEmision().toLocalDate()));
             pstmt.setDouble(3, factura.getTotal());
@@ -119,7 +117,8 @@ public class FacturaDAO implements IFacturaDAO {
     public void eliminarFactura(Integer id) {
         String sql = "delete from actividades_especiales where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }catch (SQLException e) {

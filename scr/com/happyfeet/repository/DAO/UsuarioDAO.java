@@ -11,17 +11,12 @@ import java.util.List;
 
 public class UsuarioDAO implements IUsuarioDAO {
 
-    private Connection con;
-
-    public UsuarioDAO() {
-        con = ConexionBD.getConnection();
-    }
-
     @Override
     public void agregarUsuario(Usuario usuario) {
         String sql = "Insert into usuarios (nombre_usuario, contrasena, rol) values (?, ?, ?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setString(1, usuario.getNombreUsuario());
             pstmt.setString(2, usuario.getContrasena());
             pstmt.setString(3, usuario.getRol().name());
@@ -36,7 +31,8 @@ public class UsuarioDAO implements IUsuarioDAO {
         List<Usuario> lst = new ArrayList<>();
         String sql = "select * from usuarios";
 
-        try(Statement stmt = con.createStatement();
+        try(Connection con = ConexionBD.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -61,7 +57,8 @@ public class UsuarioDAO implements IUsuarioDAO {
 
         String sql = "select * from usurios where id = ?";
 
-        try(PreparedStatement stmt = con.prepareStatement(sql);){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);){
 
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -84,7 +81,8 @@ public class UsuarioDAO implements IUsuarioDAO {
     public void actualizarUsuario(Usuario usuario) {
         String sql = "update usuarios set nombre_usuario = ?, contrasena = ?, rol = ?, where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setString(1, usuario.getNombreUsuario());
             pstmt.setString(2, usuario.getContrasena());
             pstmt.setString(3, usuario.getRol().name());
@@ -98,7 +96,8 @@ public class UsuarioDAO implements IUsuarioDAO {
     public void eliminarUsuario(Integer id) {
         String sql = "delete from usuarios where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }catch (SQLException e) {
