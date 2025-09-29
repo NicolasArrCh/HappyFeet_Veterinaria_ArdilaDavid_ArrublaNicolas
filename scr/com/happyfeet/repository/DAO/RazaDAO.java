@@ -10,17 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RazaDAO implements IRazaDAO {
-    private Connection con;
-
-    public RazaDAO() {
-        con = ConexionBD.getConnection();
-    }
 
     @Override
     public void agregarRaza(Raza raza) {
         String sql = "Insert into razas (nombre, especie_id) values (?, ?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setString(1, raza.getNombre());
             pstmt.setInt(2, raza.getEspecie().getId());
             pstmt.executeUpdate();
@@ -40,7 +36,8 @@ public class RazaDAO implements IRazaDAO {
         List<Raza> lst = new ArrayList<>();
         String sql = "select * from razas";
 
-        try(Statement stmt = con.createStatement();
+        try(Connection con = ConexionBD.getConnection();
+            Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
@@ -66,7 +63,8 @@ public class RazaDAO implements IRazaDAO {
 
         String sql = "select * from razas where id = ?";
 
-        try(PreparedStatement stmt = con.prepareStatement(sql);){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement stmt = con.prepareStatement(sql);){
 
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -90,7 +88,8 @@ public class RazaDAO implements IRazaDAO {
     public void actualizarRaza(Raza raza) {
         String sql = "update razas set especie_id = ?, nombre = ?, where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setString(1, raza.getNombre());
             pstmt.setInt(2, raza.getEspecie().getId());
             pstmt.executeUpdate();
@@ -103,7 +102,8 @@ public class RazaDAO implements IRazaDAO {
     public void eliminarRaza(Integer id) {
         String sql = "delete from razas where id = ?";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(Connection con = ConexionBD.getConnection();
+            PreparedStatement pstmt = con.prepareStatement(sql)){
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
         }catch (SQLException e) {

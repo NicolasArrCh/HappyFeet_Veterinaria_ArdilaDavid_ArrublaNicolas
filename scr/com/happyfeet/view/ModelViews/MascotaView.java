@@ -54,10 +54,14 @@ public class MascotaView {
             String fechaInput = scanner.nextLine();
             LocalDate fechaNacimiento = fechaInput.isEmpty() ? null : LocalDate.parse(fechaInput);
 
+            System.out.println("ID de la raza: ");
+            int razaId = Integer.parseInt(scanner.nextLine());
+
             Mascota mascota = new Mascota();
             mascota.setNombre(nombre);
             mascota.setDuenoId(duenoId);
             mascota.setFechaNacimiento(fechaNacimiento);
+            mascota.setRazaId(razaId);
 
             String mensaje = controller.registrarMascota(mascota);
             System.out.println(mensaje);

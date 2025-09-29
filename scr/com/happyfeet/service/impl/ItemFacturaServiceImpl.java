@@ -31,7 +31,13 @@ public class ItemFacturaServiceImpl implements IItemFacturaService {
 
         FacturaDAO facturaDAO = new FacturaDAO();
 
-        if (itemFactura.get)
+        if (itemFactura.getFactura().getId() == 0) {
+            throw new Exception("El item debe de estar asociado a una factura antes de registrarlo");
+        } else {
+            if (facturaDAO.obtenerFacturaPorId(itemFactura.getFactura().getId()) == null) {
+                throw new Exception("La factura con ID " + itemFactura.getFactura().getId() + " no existe en la BD");
+            }
+        }
 
         itemFacturaDAO.agregarItemFactura(itemFactura);
     }

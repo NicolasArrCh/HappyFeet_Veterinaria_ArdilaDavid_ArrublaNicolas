@@ -27,6 +27,8 @@ public class InventarioServiceImpl implements IInventarioService {
         if (inventario.getFechaVencimiento().isBefore(LocalDate.now())) {
             throw new Exception("La fecha de vencimiento debe ser futura");
         }
+
+
         inventarioDAO.agregarInventario(inventario);
     }
 

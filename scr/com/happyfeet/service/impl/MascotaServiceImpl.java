@@ -1,9 +1,11 @@
 package com.happyfeet.service.impl;
 
 import com.happyfeet.model.entities.Mascota;
+import com.happyfeet.model.entities.Raza;
 import com.happyfeet.repository.DAO.DuenoDAO;
 import com.happyfeet.repository.DAO.MascotaDAO;
 
+import com.happyfeet.repository.DAO.RazaDAO;
 import com.happyfeet.repository.inter.IMascotaDAO;
 import com.happyfeet.service.interfaces.IMascotaService;
 
@@ -25,14 +27,26 @@ public class MascotaServiceImpl implements IMascotaService {
         if (mascota.getFechaNacimiento() != null && mascota.getFechaNacimiento().isAfter(LocalDate.now())) {
             throw new Exception("La fecha de nacimiento no puede ser en el futuro.");
         }
+        if (mascota.getRazaId() <= 0) {
+            throw new Exception("La raza de la mascota es obligatoria.");
+        }
 
         DuenoDAO duenoDAO = new DuenoDAO();
+        RazaDAO razaDAO = new RazaDAO();
 
         if (mascota.getDuenoId() == 0) {
             throw new Exception("La mascota debe tener un dueño válido antes de registrarla");
         } else {
             if (duenoDAO.obtenerDuenoPorId(mascota.getDuenoId()) == null) {
                 throw new Exception("El dueno con ID " + mascota.getDuenoId() + " no existe en la BD");
+            }
+        }
+
+        if (mascota.getRazaId() == 0) {
+            throw new Exception("La mascota debe tener una raza valida antes de registrarla");
+        } else {
+            if (razaDAO.obtenerRazaPorId(mascota.getRazaId()) == null) {
+                throw new Exception("La raza con ID " + mascota.getRazaId() + " no existe en la BD");
             }
         }
         mascotaDAO.agregarMascota(mascota);
