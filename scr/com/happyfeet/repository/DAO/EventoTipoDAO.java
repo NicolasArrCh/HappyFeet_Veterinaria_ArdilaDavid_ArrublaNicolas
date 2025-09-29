@@ -15,9 +15,15 @@ public class EventoTipoDAO implements IEventoTipoDAO {
     public void agregarEventoTipo(EventoTipo eventoTipo) {
         String sql = "INSERT INTO evento_tipos (nombre) VALUES (?)";
         try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, eventoTipo.getNombre());
             stmt.executeUpdate();
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    eventoTipo.setId(rs.getInt(1));
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace(); // luego lo reemplazamos por logs
         }

@@ -117,9 +117,9 @@ public class view {
                     case 1 -> actividadEspecialView.mostrarMenu();
                     case 2 -> adopcionView.mostrarMenu();
                     case 3 -> citaView.mostrarMenu();
-                    case 4 -> citaEstadoView.mostrarMenu();   // ✅ corregido (antes estaba especieView)
+                    case 4 -> citaEstadoView.mostrarMenu();
                     case 5 -> duenoView.mostrarMenu();
-                    case 6 -> especieView.mostrarMenu();      // ✅ corregido (antes estaba eventoTipoView)
+                    case 6 -> especieView.mostrarMenu();
                     case 7 -> eventoTipoView.mostrarMenu();
                     case 8 -> facturaView.mostrarMenu();
                     case 9 -> historialMedicoView.mostrarMenu();

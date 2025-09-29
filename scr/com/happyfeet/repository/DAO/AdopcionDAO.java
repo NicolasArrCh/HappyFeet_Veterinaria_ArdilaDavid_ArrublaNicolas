@@ -24,7 +24,7 @@ public class AdopcionDAO implements IAdopcionDAO {
             stmt.setString(4, adopcion.getContrato());
             stmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace(); // después lo mandamos a logs
+            throw new RuntimeException("Error al registrar adopción: " + e.getMessage(), e);
         }
     }
 

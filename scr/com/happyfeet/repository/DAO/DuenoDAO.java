@@ -18,15 +18,21 @@ public class DuenoDAO implements IDuenoDAO {
 
     @Override
     public void agregarDueno(Dueno dueno) {
-        String sql = "Insert into duenos (nombreCompleto, documentoIdentidad, direccion, telefono, email) values (?, ?, ?, ?, ?)";
+        String sql = "Insert into duenos (nombre_completo, documento_identidad, direccion, telefono, email) values (?, ?, ?, ?, ?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setString(1, dueno.getNombreCompleto());
             pstmt.setString(2, dueno.getDocumentoIdentidad());
             pstmt.setString(3, dueno.getDireccion());
             pstmt.setString(4, dueno.getTelefono());
             pstmt.setString(5, dueno.getEmail());
             pstmt.executeUpdate();
+
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    dueno.setId(rs.getInt(1));
+                }
+            }
         }catch (SQLException e) {
             throw new RuntimeException("Error al agregar los duenos" + e.getMessage());
         }
@@ -52,7 +58,7 @@ public class DuenoDAO implements IDuenoDAO {
                 lst.add(due);
             }
         }catch (SQLException e){
-            System.out.println("Error al consultar todos los duenos");
+            System.out.println("Error al consultar todos los duenos" + e.getMessage());
         }
 
         return lst;

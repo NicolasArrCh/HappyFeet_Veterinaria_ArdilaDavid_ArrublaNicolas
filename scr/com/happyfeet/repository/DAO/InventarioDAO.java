@@ -17,7 +17,7 @@ public class InventarioDAO implements IInventarioDAO {
         String sql = "INSERT INTO inventario (nombre_producto, producto_tipo_id, descripcion, fabricante, lote, cantidad_stock, stock_minimo, fecha_vencimiento, precio_venta) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, inventario.getNombreProducto());
             stmt.setInt(2, inventario.getProductoTipo().getId()); // asumiendo que ProductoTipo tiene id
@@ -30,6 +30,12 @@ public class InventarioDAO implements IInventarioDAO {
             stmt.setDouble(9, inventario.getPrecioVenta());
 
             stmt.executeUpdate();
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    inventario.setId(rs.getInt(1));
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace(); // luego lo mandamos a logs
         }

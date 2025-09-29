@@ -20,10 +20,16 @@ public class RazaDAO implements IRazaDAO {
     public void agregarRaza(Raza raza) {
         String sql = "Insert into razas (nombre, especie_id) values (?, ?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setString(1, raza.getNombre());
             pstmt.setInt(2, raza.getEspecie().getId());
             pstmt.executeUpdate();
+
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    raza.setId(rs.getInt(1));
+                }
+            }
         }catch (SQLException e) {
             throw new RuntimeException("Error al agregar la raza" + e.getMessage());
         }

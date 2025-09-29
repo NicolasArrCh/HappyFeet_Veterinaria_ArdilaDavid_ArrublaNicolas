@@ -20,9 +20,15 @@ public class ProductoTipoDAO implements IProductoTipoDAO {
     public void agregarProductoTipo(ProductoTipo productoTipo) {
         String sql = "Insert into producto_tipos (nombre) values (?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setString(2, productoTipo.getNombre());
             pstmt.executeUpdate();
+
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    productoTipo.setId(rs.getInt(1));
+                }
+            }
         }catch (SQLException e) {
             throw new RuntimeException("Error al agregar los productos" + e.getMessage());
         }

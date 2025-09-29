@@ -21,9 +21,15 @@ public class CitaEstadoDAO implements ICitaEstadoDAO {
     public void agregarCitaEstado(CitaEstado citaEstado) {
         String sql = "Insert into cita_estados (nombre) values (?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setString(1, citaEstado.getNombre());
             pstmt.executeUpdate();
+
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    citaEstado.setId(rs.getInt(1));
+                }
+            }
         }catch (SQLException e) {
             throw new RuntimeException("Error al agregar los nombres" + e.getMessage());
         }

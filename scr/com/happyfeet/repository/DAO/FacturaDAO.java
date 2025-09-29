@@ -22,11 +22,17 @@ public class FacturaDAO implements IFacturaDAO {
     public void agregarFactura(Factura factura) {
         String sql = "Insert into facturas (dueno_id, fecha_emision, total) values (?, ?, ?)";
 
-        try(PreparedStatement pstmt = con.prepareStatement(sql)){
+        try(PreparedStatement pstmt = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
             pstmt.setInt(1, factura.getDueno().getId());
             pstmt.setDate(2, Date.valueOf(factura.getFechaEmision().toLocalDate()));
             pstmt.setDouble(3, factura.getTotal());
             pstmt.executeUpdate();
+
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    factura.setId(rs.getInt(1));
+                }
+            }
         }catch (SQLException e) {
             throw new RuntimeException("Error al agregar las facturas" + e.getMessage());
         }

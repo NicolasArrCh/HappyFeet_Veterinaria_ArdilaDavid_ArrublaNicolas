@@ -7,6 +7,7 @@ import com.happyfeet.util.ConexionBD;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.locks.StampedLock;
 
 public class MascotaDAO implements IMascotaDAO {
 
@@ -14,7 +15,7 @@ public class MascotaDAO implements IMascotaDAO {
     public void agregarMascota(Mascota mascota) {
         String sql = "INSERT INTO mascotas (dueno_id, nombre, raza_id, fecha_nacimiento, sexo, url_foto) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection conn = ConexionBD.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setInt(1, mascota.getDuenoId());
             stmt.setString(2, mascota.getNombre());
             stmt.setInt(3, mascota.getRazaId());
@@ -22,6 +23,12 @@ public class MascotaDAO implements IMascotaDAO {
             stmt.setString(5, mascota.getSexo());
             stmt.setString(6, mascota.getUrlFoto());
             stmt.executeUpdate();
+
+            try (ResultSet rs = stmt.getGeneratedKeys()) {
+                if (rs.next()) {
+                    mascota.setId(rs.getInt(1));
+                }
+            }
         } catch (SQLException e) {
             e.printStackTrace(); // luego lo mandamos a logs
         }
