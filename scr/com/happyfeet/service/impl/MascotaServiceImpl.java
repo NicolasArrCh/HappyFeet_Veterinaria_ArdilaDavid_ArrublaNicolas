@@ -1,7 +1,6 @@
 package com.happyfeet.service.impl;
 
 import com.happyfeet.model.entities.Mascota;
-import com.happyfeet.model.entities.Raza;
 import com.happyfeet.repository.DAO.DuenoDAO;
 import com.happyfeet.repository.DAO.MascotaDAO;
 
@@ -73,6 +72,9 @@ public class MascotaServiceImpl implements IMascotaService {
     public void actualizarMascota(Mascota mascota) throws Exception {
         if (mascota.getId() <= 0) {
             throw new Exception("El ID de la mascota no es válido para actualizar.");
+        }
+        if (mascotaDAO.obtenerMascotaPorId(mascota.getId()) == null) {
+            throw new Exception("No existe una mascota con ID " + mascota.getId() + ".");
         }
         mascotaDAO.actualizarMascota(mascota);
     }

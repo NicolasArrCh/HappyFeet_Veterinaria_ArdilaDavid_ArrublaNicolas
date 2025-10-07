@@ -6,10 +6,17 @@ import com.happyfeet.util.ConexionBD;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.locks.StampedLock;
+import java.util.Map;
 
 public class MascotaDAO implements IMascotaDAO {
+
+    private final Map<Integer, Mascota> mapaMascota = new HashMap<>();
+
+    public MascotaDAO() {
+        cargarMascotasEnCache();
+    }
 
     @Override
     public void agregarMascota(Mascota mascota) {
@@ -29,6 +36,9 @@ public class MascotaDAO implements IMascotaDAO {
                     mascota.setId(rs.getInt(1));
                 }
             }
+
+            mapaMascota.put(mascota.getId(), mascota);
+
         } catch (SQLException e) {
             e.printStackTrace(); // luego lo mandamos a logs
         }
@@ -36,6 +46,11 @@ public class MascotaDAO implements IMascotaDAO {
 
     @Override
     public List<Mascota> obtenerTodasMascotas() {
+
+        if (!mapaMascota.isEmpty()) {
+            return new ArrayList<>(mapaMascota.values());
+        }
+
         List<Mascota> mascotas = new ArrayList<>();
         String sql = "SELECT * FROM mascotas";
         try (Connection conn = ConexionBD.getConnection();
@@ -52,6 +67,7 @@ public class MascotaDAO implements IMascotaDAO {
                         rs.getString("url_foto")
                 );
                 mascotas.add(mascota);
+                mapaMascota.put(mascota.getId(), mascota);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -61,13 +77,18 @@ public class MascotaDAO implements IMascotaDAO {
 
     @Override
     public Mascota obtenerMascotaPorId(Integer id) {
+
+        if (mapaMascota.containsKey(id)) {
+            return mapaMascota.get(id);
+        }
+
         String sql = "SELECT * FROM mascotas WHERE id = ?";
         try (Connection conn = ConexionBD.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                return new Mascota(
+                Mascota mascota = new Mascota(
                         rs.getInt("id"),
                         rs.getInt("dueno_id"),
                         rs.getString("nombre"),
@@ -76,6 +97,8 @@ public class MascotaDAO implements IMascotaDAO {
                         rs.getString("sexo"),
                         rs.getString("url_foto")
                 );
+                mapaMascota.put(mascota.getId(), mascota);
+                return mascota;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,6 +119,8 @@ public class MascotaDAO implements IMascotaDAO {
             stmt.setString(6, mascota.getUrlFoto());
             stmt.setInt(7, mascota.getId());
             stmt.executeUpdate();
+
+            mapaMascota.put(mascota.getId(), mascota);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -108,8 +133,13 @@ public class MascotaDAO implements IMascotaDAO {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
+            mapaMascota.remove(id);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    private void cargarMascotasEnCache() {
+        obtenerTodasMascotas();
     }
 }
